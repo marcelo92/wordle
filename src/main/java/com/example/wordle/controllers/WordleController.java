@@ -15,7 +15,7 @@ public class WordleController {
     private LetterFilter letterFilter;
 
     @GetMapping("/include-letters")
-    public List<String> getWordsWithLetters(@RequestParam String included, @RequestParam String excluded) throws IOException {
+    public List<String> getFilteredWords(@RequestParam String included, @RequestParam String excluded) throws IOException {
         return letterFilter.filterWords(included, excluded);
     }
 }
