@@ -1,5 +1,6 @@
-package com.example.wordle.services;
+package com.example.wordle.domain;
 
+import com.example.wordle.adapters.WordListLoader;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

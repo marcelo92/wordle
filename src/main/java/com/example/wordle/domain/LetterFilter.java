@@ -1,5 +1,6 @@
-package com.example.wordle.services;
+package com.example.wordle.domain;
 
+import com.example.wordle.adapters.WordListLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,9 @@
-package com.example.wordle.controllers;
+package com.example.wordle.adapters.controllers;
 
-import com.example.wordle.services.LetterFilter;
+import com.example.wordle.domain.LetterFilter;
+import com.example.wordle.domain.QueryWords;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,11 +14,22 @@ import java.util.List;
 
 @RestController
 public class WordleController {
+    Logger logger = LoggerFactory.getLogger(WordleController.class);
     @Autowired
     private LetterFilter letterFilter;
 
-    @GetMapping("/include-letters")
+    @Autowired
+    private QueryWords queryWords;
+
+    @GetMapping("/filter")
     public List<String> getFilteredWords(@RequestParam String included, @RequestParam String excluded) throws IOException {
         return letterFilter.filterWords(included, excluded);
+    }
+
+    @GetMapping("/word")
+    public String getRandomWord() throws IOException {
+        String word = queryWords.getRandomWord();
+        logger.info(word);
+        return word;
     }
 }
