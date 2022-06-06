@@ -1,21 +1,18 @@
 package com.example.wordle;
 
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasLength;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @CucumberContextConfiguration
-@SpringBootTest(classes = WordleApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class StepDefsIntegrationTest {
-    private ResponseEntity<String> response;
+public class StepDefsIntegrationTest extends CucumberIntegrationTestsBase {
 
     @When("the client calls \\/word")
     public void theClientCallsWord() {
@@ -24,7 +21,7 @@ public class StepDefsIntegrationTest {
 
     @Then("the client receives status code of {int}")
     public void theClientReceivesStatusCodeOf(int statusCode) {
-        var currentStatusCode = response.getStatusCode();
+        var currentStatusCode = this.response.getStatusCode();
         assertThat("status code is incorrect", currentStatusCode.value(), is(statusCode));
     }
 
@@ -34,11 +31,15 @@ public class StepDefsIntegrationTest {
         assertThat("Response is not a valid word", word, hasLength(5));
     }
 
-    private void executeGet(String path) {
-        WebClient client = WebClient.create("http://localhost:8080");
-        WebClient.ResponseSpec responseSpec = client.get()
-                .uri(path)
-                .retrieve();
-        this.response = responseSpec.toEntity(String.class).block();
+    @Given("the client calls GET {word}")
+    public void theClientCallsGET(String endpoint) {
+        this.executeGet("/word/"+endpoint+"/validate");
+    }
+
+
+    @And("the client receives response {string}")
+    public void theClientReceivesResponseResponse(String response) {
+        var result = this.response.getBody();
+        assertEquals(result, response);
     }
 }
