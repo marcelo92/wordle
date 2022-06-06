@@ -1,7 +1,6 @@
 package com.example.wordle.domain;
 
 import com.example.wordle.adapters.WordListLoader;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -13,6 +12,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
 public class QueryWordsTest {
@@ -35,7 +38,20 @@ public class QueryWordsTest {
         @Test
         public void getRandomWordTest() throws IOException {
             String randomWord = queryWords.getRandomWord();
-            Assertions.assertThat(wordList).contains(randomWord);
+            assertThat(wordList).contains(randomWord);
+        }
+    }
+
+    @Nested
+    class word_exists {
+        @Test
+        public void wordExistsWithExistingWord() throws IOException {
+            assertTrue(queryWords.wordExists("abcde"));
+        }
+
+        @Test
+        public void wordExistsWithNonExistingWord() throws IOException {
+            assertFalse(queryWords.wordExists("edcab"));
         }
     }
 }

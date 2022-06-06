@@ -18,4 +18,9 @@ public class QueryWords {
         var randIndex = ThreadLocalRandom.current().nextInt(word.size());
         return word.get(randIndex);
     }
+
+    public Boolean wordExists(String word) throws IOException {
+        List<String> words = wordListLoader.getWordListFromResources();
+        return words.contains(word);
+    }
 }
