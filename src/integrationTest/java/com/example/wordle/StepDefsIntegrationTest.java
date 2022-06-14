@@ -31,7 +31,7 @@ public class StepDefsIntegrationTest extends CucumberIntegrationTestsBase {
         assertThat("Response is not a valid word", word, hasLength(5));
     }
 
-    @Given("the client calls GET {word}")
+    @Given("the client calls GET {word} \\/validate")
     public void theClientCallsGET(String word) {
         this.executeGet("/words/"+word+"/validate");
     }
@@ -40,7 +40,7 @@ public class StepDefsIntegrationTest extends CucumberIntegrationTestsBase {
     @And("the client receives response {string}")
     public void theClientReceivesResponseResponse(String response) {
         var result = this.response.getBody();
-        assertEquals(result, response);
+        assertEquals(response, result);
     }
 
     @Given("the client calls the filter with {string} and {string} letters")
