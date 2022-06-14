@@ -32,3 +32,11 @@ dependencies {
 tasks.test {
 	useJUnitPlatform()
 }
+
+task<Exec>("buildFront") {
+	commandLine("npm","run", "build", "--prefix","frontend-react/")
+	copy {
+		from("frontend-react/build")
+		into("src/main/webapp")
+	}
+}
