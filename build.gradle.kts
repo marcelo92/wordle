@@ -1,8 +1,17 @@
+import org.gradle.api.tasks.WorkResults.didWork
+
 plugins {
 	id("org.springframework.boot") version "2.6.7"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	id("org.unbroken-dome.test-sets") version "4.0.0"
 	java
+}
+
+java {
+	toolchain {
+		// automatically download a jdk for the build if not available
+		languageVersion.set(JavaLanguageVersion.of(17))
+	}
 }
 
 group = "com.example"
@@ -27,6 +36,10 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+}
+
+tasks.check {
+	dependsOn("integrationTest")
 }
 
 tasks.test {
