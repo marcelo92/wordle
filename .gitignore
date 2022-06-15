@@ -74,4 +74,4 @@ packages/react-devtools-timeline/dist
 
 node_modules/
 
-src/main/webapp/
+src/main/resources/public

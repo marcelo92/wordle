@@ -33,10 +33,15 @@ tasks.test {
 	useJUnitPlatform()
 }
 
+tasks.bootBuildImage {
+	imageName = "wordle"
+	dependsOn("buildFront")
+}
+
 task<Exec>("buildFront") {
 	commandLine("npm","run", "build", "--prefix","frontend-react/")
 	copy {
 		from("frontend-react/build")
-		into("src/main/webapp")
+		into("src/main/resources/public")
 	}
 }
