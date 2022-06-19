@@ -49,6 +49,9 @@ tasks.test {
 tasks.bootBuildImage {
 	imageName = "wordle"
 	dependsOn("buildFront")
+	environment = mapOf(
+			"JAVA_TOOL_OPTIONS" to "-Xss256K -XX:ReservedCodeCacheSize=64M -XX:MaxMetaspaceSize=64 -Xmx64M"
+	)
 }
 
 task<Exec>("buildFront") {

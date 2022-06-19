@@ -1,4 +1,8 @@
 logging.level.org.zalando.logbook.Logbook: TRACE
+server:
+  port: ${PORT:8080}
+  tomcat:
+    max-threads: 2
 management:
   endpoints:
     web:
