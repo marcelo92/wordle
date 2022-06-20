@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wordle-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordle
+  namespace: wordle-app
+  labels:
+    app: wordle
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordle
+  template:
+    metadata:
+      labels:
+        app: wordle
+    spec:
+      containers:
+        - name: wordle
+          image: wordle
+          imagePullPolicy: Never
+          envFrom:
+            - configMapRef:
+                name: wordle-config
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wordle-config
+  namespace: wordle-app
+data:
+  PORT: "80"
+  SPRING_PROFILES_ACTIVE: "production"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordle-service
+  namespace: wordle-app
+spec:
+  selector:
+    app: wordle
+  ports:
+    - protocol: TCP
+      port: 80
+  type: LoadBalancer
